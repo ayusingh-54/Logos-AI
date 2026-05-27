@@ -59,8 +59,11 @@ export async function POST(request: NextRequest) {
         moderationCategory: result.moderationCategory,
         fakeVerseDetected: result.fakeVerseDetected,
         manipulationDetected: result.manipulationDetected,
+        misquotationAlert: result.misquotationAlert,
         validationIssues: result.validationIssues,
+        outputValid: result.outputValid,
         hasGrounding: !!result.groundingVerses,
+        pipelineTrace: result.pipelineTrace,
       },
     });
   } catch (error: any) {

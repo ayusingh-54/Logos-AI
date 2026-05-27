@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Cross, Shield, AlertTriangle, BookOpen, Image } from "lucide-react";
+import { User, Cross, Shield, AlertTriangle, BookOpen, Image, CheckCircle, Quote, Zap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 interface MessageMetadata {
@@ -8,8 +8,11 @@ interface MessageMetadata {
   moderationCategory?: string;
   fakeVerseDetected?: boolean;
   manipulationDetected?: boolean;
+  misquotationAlert?: string;
   hasGrounding?: boolean;
   validationIssues?: string;
+  outputValid?: boolean;
+  pipelineTrace?: string[];
 }
 
 interface Props {
@@ -59,11 +62,27 @@ function MetadataBadges({ metadata }: { metadata: MessageMetadata }) {
     });
   }
 
+  if (metadata.outputValid === true && metadata.hasGrounding) {
+    badges.push({
+      icon: <CheckCircle size={12} />,
+      label: "Verses Validated",
+      color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20",
+    });
+  }
+
   if (metadata.fakeVerseDetected) {
     badges.push({
       icon: <AlertTriangle size={12} />,
-      label: "Fake Verse Detected",
+      label: "Fake Verse Caught",
       color: "text-red-600 bg-red-50 dark:bg-red-900/20",
+    });
+  }
+
+  if (metadata.misquotationAlert) {
+    badges.push({
+      icon: <Quote size={12} />,
+      label: "Misquotation Corrected",
+      color: "text-orange-600 bg-orange-50 dark:bg-orange-900/20",
     });
   }
 
@@ -72,6 +91,14 @@ function MetadataBadges({ metadata }: { metadata: MessageMetadata }) {
       icon: <Shield size={12} />,
       label: "Manipulation Blocked",
       color: "text-red-600 bg-red-50 dark:bg-red-900/20",
+    });
+  }
+
+  if (metadata.validationIssues) {
+    badges.push({
+      icon: <Zap size={12} />,
+      label: "Auto-Corrected",
+      color: "text-amber-600 bg-amber-50 dark:bg-amber-900/20",
     });
   }
 

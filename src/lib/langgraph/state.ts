@@ -48,6 +48,16 @@ export const GraphState = Annotation.Root({
     reducer: (_prev, next) => next,
     default: () => "",
   }),
+  misquotationAlert: Annotation<string>({
+    reducer: (_prev, next) => next,
+    default: () => "",
+  }),
+
+  // Chain-of-thought reasoning (internal — never shown to user)
+  reasoning: Annotation<string>({
+    reducer: (_prev, next) => next,
+    default: () => "",
+  }),
 
   // Response
   response: Annotation<string>({
@@ -73,6 +83,12 @@ export const GraphState = Annotation.Root({
   validationIssues: Annotation<string>({
     reducer: (_prev, next) => next,
     default: () => "",
+  }),
+
+  // Pipeline trace for debugging
+  pipelineTrace: Annotation<string[]>({
+    reducer: (prev, next) => [...prev, ...next],
+    default: () => [],
   }),
 });
 
